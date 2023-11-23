@@ -50,7 +50,7 @@ switch ($method) {
         $rspta = $usuarios->eliminar($cedula);
        
         // Envio de respuesta
-        echo json_encode($rspta ? ["success" => true, "msg" => "Categoria eliminada"] : ["success" => false, "msg" => "El usuario no se pudo eliminar"]);
+        echo json_encode($rspta ? ["success" => true, "msg" => "Usuario eliminado"] : ["success" => false, "msg" => "El usuario no se pudo eliminar"]);
         break;
     case 'GET': // Ruta: /api/usuarios
         
