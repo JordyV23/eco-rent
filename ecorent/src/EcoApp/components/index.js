@@ -1,5 +1,6 @@
 export * from "./GeneralTable";
 export * from "./NavbarApp";
 export * from "./UserOptions";
-export * from "./UserForm";
+export * from "./CrudForm";
 export * from "./CrudBtsn";
+export * from "./FormInput"
