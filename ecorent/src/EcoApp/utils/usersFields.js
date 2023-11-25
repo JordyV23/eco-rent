@@ -1,3 +1,13 @@
+export const usersHeaders = [
+  "Cédula",
+  "Nombre",
+  "Apellidos",
+  "Fecha de Nacimiento",
+  "Contraseña",
+  "Correo Electrónico",
+  "Rol",
+];
+
 
 export const userFields = [
   {

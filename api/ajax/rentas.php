@@ -1,4 +1,7 @@
 <?php
+
+require_once "../config/headers.php";
+
 header('Content-Type: application/json');
 // Obtiene el contenido JSON desde el cuerpo de la solicitud
 $jsonData = file_get_contents('php://input');
@@ -8,8 +11,6 @@ $data = json_decode($jsonData, true);
 require_once "../models/rentasModel.php";
 
 $rentas = new rentas();
-
-$method = $_SERVER['REQUEST_METHOD'];
 
 switch ($method) {
 
@@ -82,3 +83,5 @@ switch ($method) {
         echo json_encode(["success" => false, "msg" => "Método no permitido"]);
         break;
 }
+
+?>
