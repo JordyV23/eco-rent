@@ -1,9 +1,13 @@
 import { Table } from "flowbite-react";
+import { useSelector } from "react-redux";
 
-export const GeneralTable = ({ headers, data }) => {
+export const GeneralTable = ({ headers, storeName }) => {
   const onClick = () => {
     alert("hola");
   };
+
+  const storeElement = useSelector((state) => state[storeName]);
+  const data = storeElement[storeName];
 
   return (
     <div className="container overflow-x-auto mx-auto">
@@ -16,6 +20,7 @@ export const GeneralTable = ({ headers, data }) => {
             <span className="sr-only">Edit</span>
           </Table.HeadCell>
         </Table.Head>
+
         <Table.Body className="divide-y">
           {/* Renderizar filas de tabla según tus datos */}
           {data.map((user) => (
@@ -26,7 +31,6 @@ export const GeneralTable = ({ headers, data }) => {
               ))}
               <Table.Cell>
                 <button
-                  onClick={onClick}
                   className="font-medium text-cyan-600 "
                 >
                   Editar

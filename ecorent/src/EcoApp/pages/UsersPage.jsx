@@ -6,21 +6,20 @@ import {
   CrudBtsn,
 } from "../components/";
 import { userFields, usersHeaders } from "../utils";
-import { useUsers } from "../hooks/useUsers";
 import { useEffect, useState } from "react";
+import { startLoadingUsers } from "../store/userThunks"
+
+import { useDispatch, useSelector } from "react-redux";
 
 export const UsersPage = () => {
-  const { getUsers } = useUsers();
-  const [users, setUsers] = useState([]);
 
-  const getData = async () => {
-    const fetchedUsers = await getUsers();
-    setUsers(fetchedUsers);
-  };
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    getData();
+    console.log("useEffect");
+    dispatch(startLoadingUsers());
   }, []);
+
 
   return (
     <>
@@ -35,7 +34,7 @@ export const UsersPage = () => {
         </div>
       </div>
 
-      <GeneralTable headers={usersHeaders} data={users} />
+      <GeneralTable headers={usersHeaders} storeName={"usuarios"} />
     </>
   );
 };
