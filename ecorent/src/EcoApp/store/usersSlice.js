@@ -62,6 +62,16 @@ export const usersSlice = createSlice({
     writeRol: (state, action) => {
       state.rol = action.payload;
     },
+
+    cleanUser: (state) => {
+      state.cedula = "";
+      state.nombre = "";
+      state.apellidos = "";
+      state.fechaNacimiento = "";
+      state.password = "";
+      state.email = "";
+      state.rol = "";
+    },
   },
 });
 
@@ -74,4 +84,5 @@ export const {
   writeFechaNacimiento,
   writeEmail,
   writeRol,
+  cleanUser,
 } = usersSlice.actions;

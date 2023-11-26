@@ -35,6 +35,8 @@ export const useUsers = () => {
 
   const insertUser = async (usuario) => {
     try {
+      // console.log(usuario);
+      // return
       const { data } = await backendApi.post("/usuarios.php", usuario);
       return data;
     } catch (error) {
@@ -44,8 +46,34 @@ export const useUsers = () => {
     }
   };
 
+  const updateUser = async (usuario) => {
+    try {
+      const { data } = await backendApi.put("/usuarios.php", usuario);
+      return data;
+    } catch (error) {
+      // Manejo de errores
+      console.error("Error al actualizar:", error);
+      // throw error;
+    }
+  };
+
+  const deleteUser = async ({ cedula }) => {
+    try {
+      const { data } = await backendApi.delete(
+        `/usuarios.php?cedula=${cedula}`
+      );
+      return data;
+    } catch (error) {
+      // Manejo de errores
+      console.error("Error al eliminar:", error);
+      // throw error;
+    }
+  };
+
   return {
     getUsers,
     insertUser,
+    updateUser,
+    deleteUser,
   };
 };

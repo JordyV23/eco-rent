@@ -17,7 +17,7 @@ $usuarios = new usuarios();
 switch ($method) {
 
     case 'POST': // Ruta: /api/usuarios 
-        
+
         // Extraccion de parametros del body
         $cedula = isset($data['cedula']) ? $data['cedula'] : '';
         $nombre = isset($data['nombre']) ? $data['nombre'] : '';
@@ -33,30 +33,31 @@ switch ($method) {
         echo json_encode($rspta ? ["success" => true, "msg" => "usuario insertado"] : ["success" => false, "msg" => "Usuario no se pudo registrar"]);
         break;
     case 'PUT': // Ruta: /api/usuarios/{id} (Actualizar)
-        
+
         //Exrae parametros del body
         $cedula = isset($data['cedula']) ? $data['cedula'] : '';
         $password = isset($data['password']) ? $data['password'] : '';
         $email = isset($data['email']) ? $data['email'] : '';
+        $rol = isset($data['rol']) ? $data['rol'] : '';
 
         // Llama al metodo del modelo para editar
-        $rspta = $usuarios->editar($cedula,$password,$email);
-        
+        $rspta = $usuarios->editar($cedula, $password, $email, $rol);
+
         //Envia la respuesta
         echo json_encode($rspta ? ["success" => true, "msg" => "usuario actualizado"] : ["success" => false, "msg" => "Usuario no se pudo actualizar"]);
         break;
     case 'DELETE': // Ruta: /api/usuarios
-        //Extrae la cedula del body
-        $cedula = isset($data['cedula']) ? $data['cedula'] : '';
-        
-        // Llama al metodo del modelo para eliminar
+        // Extraer la cédula de los parámetros de consulta (query parameters)
+        $cedula = isset($_GET['cedula']) ? $_GET['cedula'] : '';
+
+        // Llama al método del modelo para eliminar
         $rspta = $usuarios->eliminar($cedula);
-       
-        // Envio de respuesta
+
+        // Envío de respuesta
         echo json_encode($rspta ? ["success" => true, "msg" => "Usuario eliminado"] : ["success" => false, "msg" => "El usuario no se pudo eliminar"]);
         break;
     case 'GET': // Ruta: /api/usuarios
-        
+
         // Llama al metodo del modelo para obtener TODOS los usuarios 
         $rspta = $usuarios->listar();
 
@@ -69,11 +70,11 @@ switch ($method) {
                 $data[] = $row;
             }
             $rspta->free();
-           
+
             // Envia respuesta al cliente
             echo json_encode($data);
         } else {
-           
+
             // Si no hay valores responde con mensaje de exito pero no hay datos
             echo json_encode(["success" => true, "msg" => "No hay registros"]);
         }

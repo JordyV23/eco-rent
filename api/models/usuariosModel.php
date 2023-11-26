@@ -26,9 +26,9 @@ class usuarios
     }
 
     // Funcion para editar informacion sobre usuarios
-    public function editar($cedula, $password, $email)
+    public function editar($cedula, $password, $email, $rol)
     {
-        $sql = "UPDATE usuarios SET password='$password',email='$email' WHERE cedula = $cedula";
+        $sql = "UPDATE usuarios SET password='$password',email='$email', rol='$rol' WHERE cedula = $cedula";
         return EjecutarConsulta($sql);
     }
 
@@ -42,7 +42,8 @@ class usuarios
     // Funcion para eliminar usuarios
     public function eliminar($cedula)
     {
-        $sql = "DELETE FROM usuarios WHERE cedula = $cedula";
+        $sql = "DELETE FROM usuarios WHERE cedula = '$cedula'";
+        echo($sql);
         return EjecutarConsulta($sql);
     }
 }

@@ -12,9 +12,9 @@ export const usersHeaders = [
 
 export const userSliceFunctions = [
   writeCedula,
+  writeFechaNacimiento,
   writeNombre,
   writeApellidos,
-  writeFechaNacimiento,
   writeEmail,
   writeRol,
 ]

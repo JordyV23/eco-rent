@@ -1,5 +1,3 @@
-import React from "react";
-
 /**
  * Componente funcional que representa un botón personalizado.
  * @component
@@ -12,7 +10,7 @@ import React from "react";
  */
 export const EcoBtn = ({ text, action }) => {
   return (
-    <button className="w-full rounded-xl bg-light-accent p-3 text-white font-bold" onClick={action}>
+    <button className="w-full rounded-xl bg-light-accent p-3 text-white font-bold hover:-translate-y-1 hover:scale-100 hover:bg-red-800 duration-300" onClick={action}>
       {/* Texto del botón */}
       {text}
     </button>
