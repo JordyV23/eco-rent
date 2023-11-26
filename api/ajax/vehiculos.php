@@ -43,8 +43,8 @@ switch ($method) {
         echo json_encode($rspta ? ["success" => true, "msg" => "vehiculo actualizado"] : ["success" => false, "msg" => "vehiculo no se pudo actualizar"]);
         break;
     case 'DELETE': // Ruta: /api/vehiculos
-        //Extrae la cedula del body
-        $placa = isset($data['placa']) ? $data['placa'] : '';
+        //Extrae la cedula de los parámetros de consulta (query parameters)
+        $placa = isset($_GET['placa']) ? $_GET['placa'] : '';
         
         // Llama al metodo del modelo para eliminar
         $rspta = $vehiculos->eliminar($placa);

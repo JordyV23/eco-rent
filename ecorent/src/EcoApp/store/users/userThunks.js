@@ -1,4 +1,4 @@
-import { useUsers } from "../hooks/useUsers";
+import { useUsers } from "../../hooks/users/useUsers";
 import { cleanUser, setUsers } from "./usersSlice";
 
 const { getUsers, insertUser, updateUser, deleteUser } = useUsers();

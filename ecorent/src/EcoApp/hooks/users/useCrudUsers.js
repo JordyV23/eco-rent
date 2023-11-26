@@ -3,7 +3,7 @@ import {
   startInsertUser,
   startUpdateUser,
   startDeleteUser,
-} from "../store/userThunks";
+} from "../../store/users/userThunks";
 
 /**
  * Hook personalizado que facilita la ejecución de operaciones CRUD (Crear, Leer, Actualizar, Eliminar)

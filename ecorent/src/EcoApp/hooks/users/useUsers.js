@@ -1,4 +1,4 @@
-import { backendApi } from "../../api/backend-api";
+import { backendApi } from "../../../api/backend-api";
 import Swal from "sweetalert2";
 
 /**

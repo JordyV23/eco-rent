@@ -8,7 +8,7 @@ import {
 import { userFields, usersHeaders, userSliceFunctions } from "../utils";
 import { useEffect } from "react";
 import { startLoadingUsers, selectUser } from "../store";
-import { useCrudUsers } from "../hooks/useCrudUsers";
+import { useCrudUsers } from "../hooks/users/useCrudUsers";
 import { useDispatch, useSelector } from "react-redux";
 
 export const UsersPage = () => {

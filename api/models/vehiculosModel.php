@@ -13,7 +13,7 @@ class vehiculos
     // Funcion para insertar vehiculos
     public function insertar($placa, $marca, $detalle, $color)
     {
-        $sql = "INSERT INTO vehiculos (placa,marca,detalle,color,disponible) VALUES ('$placa', '$marca','$detalle','$color','1')";
+        $sql = "INSERT INTO vehiculos (placa,marca,detalle,color,disponible) VALUES ('$placa', '$marca','$detalle','$color',1)";
         return EjecutarConsulta($sql);
     }
 
@@ -25,7 +25,7 @@ class vehiculos
     }
 
     // Funcion para editar informacion sobre vehiculos
-    public function editar($placa,$detalle, $color, $disponible)
+    public function editar($placa, $detalle, $color, $disponible)
     {
         $sql = "UPDATE vehiculos SET detalle='$detalle',color='$color',disponible='$disponible' WHERE cedula = $placa";
         return EjecutarConsulta($sql);

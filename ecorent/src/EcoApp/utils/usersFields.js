@@ -1,4 +1,11 @@
-import { writeCedula,writeNombre,writeApellidos, writeFechaNacimiento, writeEmail, writeRol } from "../store/usersSlice";
+import {
+  writeCedula,
+  writeNombre,
+  writeApellidos,
+  writeFechaNacimiento,
+  writeEmail,
+  writeRol,
+} from "../store/users/usersSlice";
 
 export const usersHeaders = [
   "Cédula",
@@ -17,8 +24,7 @@ export const userSliceFunctions = [
   writeApellidos,
   writeEmail,
   writeRol,
-]
-
+];
 
 export const userFields = [
   {
