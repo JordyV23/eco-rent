@@ -16,24 +16,36 @@ import { backendApi } from "../../api/backend-api";
  * }, []);
  */
 export const useUsers = () => {
-    /**
-     * Función asincrónica que obtiene la lista de usuarios desde la API.
-     * @async
-     * @function
-     * @returns {Promise} Resuelve con los datos de usuarios obtenidos de la API.
-     */
-    const getUsers = async () => {
-        try {
-            const { data } = await backendApi.get("/usuarios.php");
-            return data;
-        } catch (error) {
-            // Manejo de errores
-            console.error("Error al obtener usuarios:", error);
-            throw error;
-        }
-    };
+  /**
+   * Función asincrónica que obtiene la lista de usuarios desde la API.
+   * @async
+   * @function
+   * @returns {Promise} Resuelve con los datos de usuarios obtenidos de la API.
+   */
+  const getUsers = async () => {
+    try {
+      const { data } = await backendApi.get("/usuarios.php");
+      return data;
+    } catch (error) {
+      // Manejo de errores
+      console.error("Error al obtener usuarios:", error);
+      //   throw error;
+    }
+  };
 
-    return {
-        getUsers
-    };
+  const insertUser = async (usuario) => {
+    try {
+      const { data } = await backendApi.post("/usuarios.php", usuario);
+      return data;
+    } catch (error) {
+      // Manejo de errores
+      console.error("Error al insertar:", error);
+      // throw error;
+    }
+  };
+
+  return {
+    getUsers,
+    insertUser,
+  };
 };

@@ -1,3 +1,5 @@
+import { writeCedula,writeNombre,writeApellidos, writeFechaNacimiento, writeEmail, writeRol } from "../store/usersSlice";
+
 export const usersHeaders = [
   "Cédula",
   "Nombre",
@@ -7,6 +9,15 @@ export const usersHeaders = [
   "Correo Electrónico",
   "Rol",
 ];
+
+export const userSliceFunctions = [
+  writeCedula,
+  writeNombre,
+  writeApellidos,
+  writeFechaNacimiento,
+  writeEmail,
+  writeRol,
+]
 
 
 export const userFields = [
@@ -32,7 +43,7 @@ export const userFields = [
   },
   {
     label: "Correo Electrónico",
-    name: "correo",
+    name: "email",
     type: "text",
   },
   {

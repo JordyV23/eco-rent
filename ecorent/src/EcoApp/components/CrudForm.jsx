@@ -16,7 +16,7 @@ import { useForm } from "react-hook-form";
  *   onSubmit={(data) => console.log(data)}
  * />
  */
-export const CrudForm = ({ fields, onSubmit }) => {
+export const CrudForm = ({ fields, onSubmit,slices }) => {
   // Hook para el manejo del formulario
   const { register, handleSubmit } = useForm();
 
@@ -34,12 +34,13 @@ export const CrudForm = ({ fields, onSubmit }) => {
           <fieldset className="grid gap-6 p-6 rounded-md shadow-sm">
             <div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
               {/* Mapeo de los campos del formulario */}
-              {fields.map((field) => (
+              {fields.map((field,i) => (
                 <FormInput
                   id={field.name}
                   label={field.label}
                   type={field.type}
                   key={field.name}
+                  func={slices[i]}
                   registerFunction={{ ...register(field.name) }}
                 />
               ))}

@@ -1,16 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  status: "checking", //checking, not-authenticated, authenticated
   usuarios: [],
-  cedula: null,
-  nombre: null,
-  apellidos: null,
-  fechaNacimiento: null,
-  password: null,
-  correo: null,
-  rol: null,
-  errorMessage: null,
+  cedula: "",
+  nombre: "",
+  apellidos: "",
+  fechaNacimiento: "",
+  password: "",
+  email: "",
+  rol: "",
+  errorMessage: "",
 };
 
 export const usersSlice = createSlice({
@@ -27,7 +26,7 @@ export const usersSlice = createSlice({
         apellidos,
         fechaNacimiento,
         password,
-        correo,
+        email,
         rol,
       } = action.payload;
 
@@ -36,10 +35,43 @@ export const usersSlice = createSlice({
       state.apellidos = apellidos;
       state.fechaNacimiento = fechaNacimiento;
       state.password = password;
-      state.correo = correo;
+      state.email = email;
       state.rol = rol;
+    },
+
+    writeCedula: (state, action) => {
+      state.cedula = action.payload;
+    },
+
+    writeNombre: (state, action) => {
+      state.nombre = action.payload;
+    },
+
+    writeApellidos: (state, action) => {
+      state.apellidos = action.payload;
+    },
+
+    writeFechaNacimiento: (state, action) => {
+      state.fechaNacimiento = action.payload;
+    },
+
+    writeEmail: (state, action) => {
+      state.email = action.payload;
+    },
+
+    writeRol: (state, action) => {
+      state.rol = action.payload;
     },
   },
 });
 
-export const { selectUser, setUsers } = usersSlice.actions;
+export const {
+  selectUser,
+  setUsers,
+  writeCedula,
+  writeNombre,
+  writeApellidos,
+  writeFechaNacimiento,
+  writeEmail,
+  writeRol,
+} = usersSlice.actions;

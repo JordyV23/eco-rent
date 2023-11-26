@@ -1,10 +1,7 @@
 import { Table } from "flowbite-react";
 import { useSelector } from "react-redux";
 
-export const GeneralTable = ({ headers, storeName }) => {
-  const onClick = () => {
-    alert("hola");
-  };
+export const GeneralTable = ({ headers, storeName,event,keyField }) => {
 
   const storeElement = useSelector((state) => state[storeName]);
   const data = storeElement[storeName];
@@ -22,16 +19,17 @@ export const GeneralTable = ({ headers, storeName }) => {
         </Table.Head>
 
         <Table.Body className="divide-y">
-          {/* Renderizar filas de tabla según tus datos */}
-          {data.map((user) => (
-            <Table.Row key={user.cedula}>
+          {/* Renderizar filas de tabla según los datos del store*/}
+          {data.map((field) => (
+            <Table.Row key={field[keyField]}>
               {/* Renderizar celdas de tabla según las propiedades del usuario */}
-              {Object.values(user).map((value, index) => (
+              {Object.values(field).map((value, index) => (
                 <Table.Cell key={index}>{value}</Table.Cell>
               ))}
               <Table.Cell>
                 <button
                   className="font-medium text-cyan-600 "
+                  onClick={() => event(field[keyField])}
                 >
                   Editar
                 </button>
