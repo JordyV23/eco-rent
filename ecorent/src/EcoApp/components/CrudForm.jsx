@@ -9,14 +9,16 @@ import { useForm } from "react-hook-form";
  * @param {object} props - Propiedades del componente.
  * @param {Array} props.fields - Array de objetos que describe los campos del formulario.
  * @param {Function} props.onSubmit - Función a ejecutar al enviar el formulario.
+ * @param {Array} props.slices - Array de funciones que representan acciones a realizar en cada campo del formulario.
  * @example
  * Ejemplo de uso del componente en un contenedor principal.
  * <CrudForm
  *   fields={[{ name: "firstName", label: "Nombre", type: "text" }, ...]}
  *   onSubmit={(data) => console.log(data)}
+ *   slices={[func1, func2, func3, ...]}
  * />
  */
-export const CrudForm = ({ fields, onSubmit,slices }) => {
+export const CrudForm = ({ fields, onSubmit, slices }) => {
   // Hook para el manejo del formulario
   const { register, handleSubmit } = useForm();
 
@@ -34,7 +36,7 @@ export const CrudForm = ({ fields, onSubmit,slices }) => {
           <fieldset className="grid gap-6 p-6 rounded-md shadow-sm">
             <div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
               {/* Mapeo de los campos del formulario */}
-              {fields.map((field,i) => (
+              {fields.map((field, i) => (
                 <FormInput
                   id={field.name}
                   label={field.label}
