@@ -1,10 +1,17 @@
 import { Table } from "flowbite-react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setSeleccion } from "../store";
 
-export const GeneralTable = ({ headers, storeName,event,keyField }) => {
-
+export const GeneralTable = ({ headers, storeName, event, keyField }) => {
   const storeElement = useSelector((state) => state[storeName]);
   const data = storeElement[storeName];
+
+  const dispatch = useDispatch();
+
+  const seleccionarRegistro = (field, keyField) => {
+    event(field[keyField]);
+    dispatch(setSeleccion());
+  };
 
   return (
     <div className="container overflow-x-auto mx-auto">
@@ -29,7 +36,7 @@ export const GeneralTable = ({ headers, storeName,event,keyField }) => {
               <Table.Cell>
                 <button
                   className="font-medium text-cyan-600 "
-                  onClick={() => event(field[keyField])}
+                  onClick={() => seleccionarRegistro(field, keyField)}
                 >
                   Editar
                 </button>
