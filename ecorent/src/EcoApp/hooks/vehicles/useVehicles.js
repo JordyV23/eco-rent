@@ -1,6 +1,11 @@
 import { backendApi } from "../../../api/backend-api";
 import Swal from "sweetalert2";
 
+/**
+ * Hook personalizado para manejar operaciones relacionadas con vehículos.
+ * @function
+ * @returns {Object} Objeto que contiene funciones para obtener, insertar, actualizar y eliminar vehículos.
+ */
 export const useVehicles = () => {
   /**
    * Muestra una notificación de éxito utilizando SweetAlert2.
@@ -9,7 +14,7 @@ export const useVehicles = () => {
   const notifySuccess = (accion) => {
     Swal.fire({
       title: "¡Éxito!",
-      text: `Vehiculo ${accion} correctamente`,
+      text: `Vehículo ${accion} correctamente`,
       icon: "success",
       confirmButtonText: "Aceptar",
     });
@@ -22,23 +27,34 @@ export const useVehicles = () => {
   const notifyError = (accion) => {
     Swal.fire({
       title: "¡Error!",
-      text: `No se pudo ${accion} el vehiculo`,
+      text: `No se pudo ${accion} el vehículo`,
       icon: "error",
       confirmButtonText: "Aceptar",
     });
   };
 
+  /**
+   * Función asincrónica que obtiene la lista de vehículos desde la API.
+   * @async
+   * @function
+   * @returns {Promise} Resuelve con los datos de vehículos obtenidos de la API.
+   */
   const getVehicles = async () => {
     try {
       const { data } = await backendApi.get("/vehiculos.php");
       return data;
     } catch (error) {
       // Manejo de errores
-      console.error("Error al obtener vehiculos:", error);
-      //   throw error;
+      console.error("Error al obtener vehículos:", error);
     }
   };
 
+  /**
+   * Función asincrónica que inserta un nuevo vehículo utilizando la API.
+   * @async
+   * @function
+   * @param {Object} vehicle - Objeto que representa los datos del nuevo vehículo.
+   */
   const insertVehicle = async (vehicle) => {
     try {
       const { data } = await backendApi.post("/vehiculos.php", vehicle);
@@ -49,23 +65,36 @@ export const useVehicles = () => {
         notifyError("insertar");
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error al insertar vehículo:", error);
     }
   };
 
+  /**
+   * Función asincrónica que actualiza un vehículo existente utilizando la API.
+   * @async
+   * @function
+   * @param {Object} vehicle - Objeto que representa los datos del vehículo a actualizar.
+   */
   const updateVehicle = async (vehicle) => {
     try {
       const { data } = await backendApi.put("/vehiculos.php", vehicle);
+
       if (data.success) {
         notifySuccess("actualizado");
       } else {
         notifyError("actualizar");
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error al actualizar vehículo:", error);
     }
   };
 
+  /**
+   * Función asincrónica que elimina un vehículo utilizando la API.
+   * @async
+   * @function
+   * @param {Object} params - Objeto que contiene los parámetros para la eliminación del vehículo.
+   */
   const deleteVehicle = async ({ placa }) => {
     try {
       const { data } = await backendApi.delete(`/vehiculos.php?placa=${placa}`);
@@ -76,7 +105,7 @@ export const useVehicles = () => {
         notifyError("eliminar");
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error al eliminar vehículo:", error);
     }
   };
 
