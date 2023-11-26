@@ -8,20 +8,24 @@ import {
 export const useCrudVehicles = () => {
   const dispatch = useDispatch();
 
-  const { placa, marca, detalle, color, disponible } = useSelector(
+  let { placa, marca, detalle, color, disponible } = useSelector(
     (state) => state.vehiculos
   );
 
+  // disponible = parseInt(disponible);
+
   const insertar = () => {
-    dispatch(startInsertVehicle({ placa, marca, detalle, color, disponible }));
+    const dis = parseInt(disponible)
+    dispatch(startInsertVehicle({ placa, marca, detalle, color, dis  }));
   };
 
   const actualizar = () => {
-    dispatch(startUpdateVehicle({ placa, marca, detalle, color, disponible }));
+    const dis = parseInt(disponible)
+    dispatch(startUpdateVehicle({ placa, marca, detalle, color, dis }));
   };
 
   const eliminar = () => {
-    dispatch(startDeleteVehicle({ placa, marca, detalle, color, disponible }));
+    dispatch(startDeleteVehicle({ placa}));
   };
 
   return { insertar, actualizar, eliminar };

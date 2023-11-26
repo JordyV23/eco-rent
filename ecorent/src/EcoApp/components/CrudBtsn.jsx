@@ -1,7 +1,7 @@
 import React from "react";
 import { EcoBtn } from "./EcoBtn";
 import { useDispatch, useSelector } from "react-redux";
-import { setReiniciar, cleanUser } from "../store";
+import { setReiniciar, cleanUser, cleanVehicle } from "../store";
 
 /**
  * Componente que muestra botones de CRUD (Crear, Leer, Actualizar, Eliminar) y otras operaciones
@@ -28,6 +28,12 @@ export const CrudBtsn = ({ insertar, actualizar, eliminar, buscar }) => {
   } = useSelector((state) => state.crud);
 
   const dispatch = useDispatch();
+
+  const limpiar = () => {
+    dispatch(cleanUser());
+    dispatch(cleanVehicle());
+    dispatch(setReiniciar());
+  };
 
   return (
     <section className="mt-4 p-4 space-y-4 flex flex-col items-center">
@@ -58,8 +64,7 @@ export const CrudBtsn = ({ insertar, actualizar, eliminar, buscar }) => {
         <EcoBtn
           text={"Limpiar"}
           action={() => {
-            dispatch(cleanUser());
-            dispatch(setReiniciar());
+            limpiar();
           }}
           disabled={disableLimpiar}
         />

@@ -14,8 +14,8 @@ import { useDispatch, useSelector } from "react-redux";
  * // Ejemplo de uso en un formulario.
  * <FormInput id="nombre" label="Nombre" type="text" func={updateNombre} />
  */
-export const FormInput = ({ id, label, type, func }) => {
-  const valor = useSelector((state) => state.usuarios);
+export const FormInput = ({ id, label, type, func,stateName }) => {
+  const valor = useSelector((state) => state[stateName])
   const dispatch = useDispatch();
 
   return (
@@ -24,6 +24,7 @@ export const FormInput = ({ id, label, type, func }) => {
         {label}
       </label>
       <input
+        // required
         id={id}
         type={type}
         placeholder={label}

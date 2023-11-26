@@ -27,21 +27,21 @@ class vehiculos
     // Funcion para editar informacion sobre vehiculos
     public function editar($placa, $detalle, $color, $disponible)
     {
-        $sql = "UPDATE vehiculos SET detalle='$detalle',color='$color',disponible='$disponible' WHERE cedula = $placa";
+        $sql = "UPDATE vehiculos SET detalle='$detalle',color='$color',disponible='$disponible' WHERE placa = '$placa'";
         return EjecutarConsulta($sql);
     }
 
     // Funcion para buscar vehiculos
     public function buscar($placa)
     {
-        $sql = "SELECT placa,marca,detalle,color,disponible FROM vehiculos WHERE cedula = $placa";
+        $sql = "SELECT placa,marca,detalle,color,disponible FROM vehiculos WHERE cedula = '$placa'";
         return EjecutarConsulta($sql);
     }
 
     // Funcion para eliminar vehiculos
     public function eliminar($placa)
     {
-        $sql = "DELETE FROM vehiculos WHERE placa = $placa";
+        $sql = "DELETE FROM vehiculos WHERE placa = '$placa'";
         return EjecutarConsulta($sql);
     }
 }

@@ -1,5 +1,5 @@
 import { useVehicles } from "../../hooks/vehicles/useVehicles";
-import { selectVehiculo, cleanVehicle } from "./vehiclesSlice";
+import { cleanVehicle, setVehiculos } from "./vehiclesSlice";
 
 const { getVehicles, insertVehicle, updateVehicle, deleteVehicle } =
   useVehicles();
@@ -7,7 +7,7 @@ const { getVehicles, insertVehicle, updateVehicle, deleteVehicle } =
 export const startLoadingVehicles = () => {
   return async (dispatch) => {
     const vehicles = await getVehicles();
-    dispatch(selectVehiculo(vehicles));
+    dispatch(setVehiculos(vehicles));
   };
 };
 

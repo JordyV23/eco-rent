@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  vehiculos: [],
   placa: "",
   marca: "",
   detalle: "",
   color: "",
   disponible: "",
-  vehiculos: [],
 };
 
 export const vehiclesSlice = createSlice({

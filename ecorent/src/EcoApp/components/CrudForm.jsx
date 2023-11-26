@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form";
  *   slices={[func1, func2, func3, ...]}
  * />
  */
-export const CrudForm = ({ fields, onSubmit, slices }) => {
+export const CrudForm = ({ fields, onSubmit, slices,stateName }) => {
   // Hook para el manejo del formulario
   const { register, handleSubmit } = useForm();
 
@@ -43,6 +43,7 @@ export const CrudForm = ({ fields, onSubmit, slices }) => {
                   type={field.type}
                   key={field.name}
                   func={slices[i]}
+                  stateName={stateName}
                   registerFunction={{ ...register(field.name) }}
                 />
               ))}
