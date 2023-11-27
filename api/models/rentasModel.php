@@ -13,7 +13,7 @@ class rentas
     // Funcion para insertar rentas
     public function insertar($fechaRenta, $fechaDevolucion, $fechaVencimiento, $cedula, $placa)
     {
-        $sql = "INSERT INTO rentas (fechaRenta,fechaDevolucion,fechaVencimiento,cedula,placa) VALUES ('$fechaRenta', '$fechaDevolucion','$fechaVencimiento','$cedula','$placa')";
+        $sql = "INSERT INTO rentas (fechaRenta,fechaVencimiento,cedula,placa) VALUES ('$fechaRenta','$fechaVencimiento','$cedula','$placa')";
         return EjecutarConsulta($sql);
     }
 

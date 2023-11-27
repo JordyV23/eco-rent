@@ -28,7 +28,7 @@ export const FormInput = ({ id, label, type, func, stateName }) => {
         id={id}
         type={type}
         placeholder={label}
-        value={valor[id]}
+        value={valor[id] != null ? valor[id] : ""}
         onChange={(e) => dispatch(func(e.target.value))}
         className="w-full rounded-md focus:ring border-gray-700 text-gray-900"
       />

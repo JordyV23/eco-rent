@@ -17,13 +17,13 @@ export const UserOptions = () => {
       {/* Contenedor principal */}
       <div className="container mx-auto mt-8 text-center">
         {/* Enlace a la sección de Usuarios */}
-        <LinkComponent ink={"users"} text={"Usuarios"} />
+        <LinkComponent link={"/users"} text={"Usuarios"} />
 
         {/* Enlace a la sección de Vehículos */}
-        <LinkComponent ink={"vehicles"} text={"Vehículos"} />
+        <LinkComponent link={"/vehicles"} text={"Vehículos"} />
 
         {/* Enlace a la sección de Alquileres */}
-        <LinkComponent ink={"rental"} text={"Alquileres"} />
+        <LinkComponent link={"/rental"} text={"Alquileres"} />
       </div>
     </>
   );

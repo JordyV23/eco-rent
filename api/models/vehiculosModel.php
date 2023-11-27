@@ -27,7 +27,7 @@ class vehiculos
     // Funcion para editar informacion sobre vehiculos
     public function editar($placa, $detalle, $color, $disponible)
     {
-        $sql = "UPDATE vehiculos SET detalle='$detalle',color='$color',disponible='$disponible' WHERE placa = '$placa'";
+        $sql = "UPDATE vehiculos SET detalle='$detalle',color='$color',disponible=$disponible WHERE placa = '$placa'";
         return EjecutarConsulta($sql);
     }
 

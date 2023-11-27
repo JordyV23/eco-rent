@@ -47,7 +47,7 @@ switch ($method) {
         break;
     case 'DELETE': // Ruta: /api/rentas
         //Extrae la cedula del body
-        $idRenta = isset($data['idRenta']) ? $data['idRenta'] : '';
+        $idRenta = isset($_GET['idRenta']) ? $_GET['idRenta'] : '';
         
         // Llama al metodo del modelo para eliminar
         $rspta = $rentas->eliminar($idRenta);
