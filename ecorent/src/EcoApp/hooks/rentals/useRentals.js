@@ -1,6 +1,10 @@
 import { backendApi } from "../../../api/backend-api";
 import Swal from "sweetalert2";
 
+/**
+ * Hook que proporciona funciones relacionadas con la gestión de rentas del usuario.
+ * @returns {object} Objeto con funciones para obtener, insertar, actualizar y eliminar rentas.
+ */
 export const userRentals = () => {
   /**
    * Muestra una notificación de éxito utilizando SweetAlert2.
@@ -28,6 +32,10 @@ export const userRentals = () => {
     });
   };
 
+  /**
+   * Obtiene la lista de rentas del usuario.
+   * @returns {Promise<Array>} Promesa que resuelve con la lista de rentas o un array vacío si no hay registros.
+   */
   const getRentals = async () => {
     try {
       const { data } = await backendApi.get("/rentas.php");
@@ -36,13 +44,16 @@ export const userRentals = () => {
       }
       return data;
     } catch (error) {
-      // Manejo de errores
       console.error("Error al obtener rentas:", error);
-      //   throw error;
       return [];
     }
   };
 
+  /**
+   * Inserta una nueva renta.
+   * @param {object} rent - Objeto que representa la renta a insertar.
+   * @returns {Promise<object>} Promesa que resuelve con la respuesta del servidor.
+   */
   const insertRent = async (rent) => {
     try {
       const { data } = await backendApi.post("/rentas.php", rent);
@@ -55,12 +66,15 @@ export const userRentals = () => {
 
       return data;
     } catch (error) {
-      // Manejo de errores
       console.error("Error al insertar renta:", error);
-      //   throw error;
     }
   };
 
+  /**
+   * Actualiza una renta existente.
+   * @param {object} rent - Objeto que representa la renta a actualizar.
+   * @returns {Promise<object>} Promesa que resuelve con la respuesta del servidor.
+   */
   const updateRent = async (rent) => {
     try {
       const { data } = await backendApi.put("/rentas.php", rent);
@@ -72,17 +86,18 @@ export const userRentals = () => {
       }
       return data;
     } catch (error) {
-      // Manejo de errores
       console.error("Error al actualizar renta:", error);
-      //   throw error;
     }
   };
 
+  /**
+   * Elimina una renta existente.
+   * @param {object} rent - Objeto que representa la renta a eliminar.
+   * @returns {Promise<object>} Promesa que resuelve con la respuesta del servidor.
+   */
   const deleteRent = async ({ idRenta }) => {
     try {
-      const { data } = await backendApi.delete(
-        `/rentas.php?idRenta=${idRenta}`
-      );
+      const { data } = await backendApi.delete(`/rentas.php?idRenta=${idRenta}`);
 
       if (data.success) {
         notifySuccess("eliminada");
@@ -91,9 +106,7 @@ export const userRentals = () => {
       }
       return data;
     } catch (error) {
-      // Manejo de errores
       console.error("Error al eliminar renta:", error);
-      //   throw error;
     }
   };
 

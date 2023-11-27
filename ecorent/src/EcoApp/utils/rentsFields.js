@@ -3,7 +3,7 @@ import {
   writeFechaRenta,
   writeFechaDevolucion,
   writeFechaVencimiento,
-  writeCedulaRetal,
+  writeCedulaRental,
   writePlacaRental,
 } from "../store";
 
@@ -21,7 +21,7 @@ export const rentalSliceFunctions = [
     writeFechaRenta,
     writeFechaDevolucion,
     writeFechaVencimiento,
-    writeCedulaRetal,
+    writeCedulaRental,
     writePlacaRental,
 ];
 
