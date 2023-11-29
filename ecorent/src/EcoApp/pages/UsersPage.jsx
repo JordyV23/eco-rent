@@ -6,6 +6,7 @@ import {
   GeneralTable,
   CrudForm,
   CrudBtsn,
+  Loader,
 } from "../components/";
 import { userFields, usersHeaders, userSliceFunctions } from "../utils";
 import { startLoadingUsers, selectUser } from "../store";
@@ -48,7 +49,11 @@ export const UsersPage = () => {
       <div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-3 ">
         {/* Formulario de CRUD */}
         <div className="col-span-full sm:col-span-4">
-          <CrudForm stateName={"usuarios"} fields={userFields} slices={userSliceFunctions} />
+          <CrudForm
+            stateName={"usuarios"}
+            fields={userFields}
+            slices={userSliceFunctions}
+          />
         </div>
 
         {/* Botones de CRUD */}
@@ -71,6 +76,7 @@ export const UsersPage = () => {
         event={setSelectedUser}
         keyField={"cedula"}
       />
+      <Loader />
     </>
   );
 };
