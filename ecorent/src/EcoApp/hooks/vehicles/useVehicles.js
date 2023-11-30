@@ -41,7 +41,10 @@ export const useVehicles = () => {
    */
   const getVehicles = async () => {
     try {
-      const { data } = await backendApi.get("/vehiculos.php");
+      const { data } = await backendApi.get(import.meta.env.VITE_VEHICLES);
+      if (data.msg === "No hay registros") {
+        return [];
+      }
       return data;
     } catch (error) {
       // Manejo de errores
@@ -57,7 +60,7 @@ export const useVehicles = () => {
    */
   const insertVehicle = async (vehicle) => {
     try {
-      const { data } = await backendApi.post("/vehiculos.php", vehicle);
+      const { data } = await backendApi.post(import.meta.env.VITE_VEHICLES, vehicle);
 
       if (data.success) {
         notifySuccess("insertado");
@@ -77,7 +80,7 @@ export const useVehicles = () => {
    */
   const updateVehicle = async (vehicle) => {
     try {
-      const { data } = await backendApi.put("/vehiculos.php", vehicle);
+      const { data } = await backendApi.put(import.meta.env.VITE_VEHICLES, vehicle);
 
       if (data.success) {
         notifySuccess("actualizado");

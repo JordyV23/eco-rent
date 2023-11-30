@@ -50,8 +50,12 @@ export const useUsers = () => {
    * @returns {Promise} Resuelve con los datos de usuarios obtenidos de la API.
    */
   const getUsers = async () => {
+    console.log(import.meta.env.VITE_USERS);
     try {
-      const { data } = await backendApi.get("/usuarios.php");
+      const { data } = await backendApi.get(import.meta.env.VITE_USERS);
+      if (data.msg === "No hay registros") {
+        return [];
+      }
       return data;
     } catch (error) {
       // Manejo de errores
@@ -69,7 +73,7 @@ export const useUsers = () => {
    */
   const insertUser = async (usuario) => {
     try {
-      const { data } = await backendApi.post("/usuarios.php", usuario);
+      const { data } = await backendApi.post(import.meta.env.VITE_USERS, usuario);
 
       if (data.success) {
         notifySuccess("insertado");
@@ -94,7 +98,7 @@ export const useUsers = () => {
    */
   const updateUser = async (usuario) => {
     try {
-      const { data } = await backendApi.put("/usuarios.php", usuario);
+      const { data } = await backendApi.put(import.meta.env.VITE_USERS, usuario);
 
       if (data.success) {
         notifySuccess("actualizado");

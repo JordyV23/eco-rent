@@ -38,7 +38,7 @@ export const userRentals = () => {
    */
   const getRentals = async () => {
     try {
-      const { data } = await backendApi.get("/rentas.php");
+      const { data } = await backendApi.get(import.meta.env.VITE_RENTS);
       if (data.msg === "No hay registros") {
         return [];
       }
@@ -56,7 +56,7 @@ export const userRentals = () => {
    */
   const insertRent = async (rent) => {
     try {
-      const { data } = await backendApi.post("/rentas.php", rent);
+      const { data } = await backendApi.post(import.meta.env.VITE_RENTS, rent);
 
       if (data.success) {
         notifySuccess("insertada");
@@ -77,7 +77,7 @@ export const userRentals = () => {
    */
   const updateRent = async (rent) => {
     try {
-      const { data } = await backendApi.put("/rentas.php", rent);
+      const { data } = await backendApi.put(import.meta.env.VITE_RENTS, rent);
 
       if (data.success) {
         notifySuccess("actualizada");
@@ -97,7 +97,7 @@ export const userRentals = () => {
    */
   const deleteRent = async ({ idRenta }) => {
     try {
-      const { data } = await backendApi.delete(`/rentas.php?idRenta=${idRenta}`);
+      const { data } = await backendApi.delete(`${import.meta.env.VITE_RENTS}?idRenta=${idRenta}`);
 
       if (data.success) {
         notifySuccess("eliminada");
