@@ -52,7 +52,11 @@ export const VehiclesPage = () => {
       <div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-3 ">
         {/* Formulario de CRUD */}
         <div className="col-span-full sm:col-span-4">
-          <CrudForm stateName={"vehiculos"} fields={vehiclesFields} slices={vehiclesSliceFunctions} />
+          <CrudForm
+            stateName={"vehiculos"}
+            fields={vehiclesFields}
+            slices={vehiclesSliceFunctions}
+          />
         </div>
 
         {/* Botones de CRUD */}
@@ -61,9 +65,12 @@ export const VehiclesPage = () => {
             insertar={insertar}
             actualizar={actualizar}
             eliminar={eliminar}
-            buscar={() => {
-              console.log("buscar");
-            }}
+            headers={vehiclesHeaders}
+            keyField={"placa"}
+            event={setSelectedVehicle}
+            storeName={"vehiculos"}
+            filter1={"placa"}
+            filter2={"marca"}
           />
         </div>
       </div>

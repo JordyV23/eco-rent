@@ -51,9 +51,12 @@ export const RentsPage = () => {
                 insertar={insertar}
                 actualizar={actualizar}
                 eliminar={eliminar}
-                buscar={() => {
-                  console.log("buscar");
-                }}
+                headers={rentalsHeaders}
+                keyField={"idRenta"}
+                event={setSelectedRental}
+                storeName={"rentas"}
+                filter1={"placa"}
+                filter2={"cedula"}
               />
             </div>
           </div>

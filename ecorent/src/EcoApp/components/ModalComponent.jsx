@@ -2,19 +2,22 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { SearchTable } from "./SearchTable";
 
-export const ModalComponent = ({headers,keyField, event}) => {
+export const ModalComponent = ({headers,keyField, event, storeName,filter1,filter2}) => {
   const [showModal, setShowModal] = React.useState(false);
   const [coincidencias, setCoincidencias] = React.useState([]);
 
-  const { usuarios } = useSelector((state) => state["usuarios"]);
+  const store = useSelector((state) => state[storeName]);
 
   // let coincidencias = [];
 
   const buscar = (value) => {
+    // console.log(store[storeName][0][filter1]);
+    // return
     // console.log(value);
     // console.log(usuarios);
-    let val = usuarios.filter(
-      (user) => user.cedula.includes(value) || user.nombre.includes(value)
+
+    let val = store[storeName].filter(
+      (obj) => obj[filter1].includes(value) || obj[filter2].includes(value)
     );
 
     setCoincidencias(val);

@@ -69,6 +69,9 @@ export const UsersPage = () => {
                 headers={usersHeaders}
                 keyField={"cedula"}
                 event={setSelectedUser}
+                storeName={"usuarios"}
+                filter1={"cedula"}
+                filter2={"nombre"}
               />
             </div>
           </div>

@@ -36,6 +36,9 @@ export const CrudBtsn = ({
   headers,
   keyField,
   event,
+  storeName,
+  filter1,
+  filter2,
 }) => {
   const {
     disableCrear,
@@ -76,7 +79,14 @@ export const CrudBtsn = ({
         />
       </div>
       <div className="w-full">
-        <ModalComponent headers={headers} event={event} keyField={keyField} />
+        <ModalComponent
+          headers={headers}
+          event={event}
+          keyField={keyField}
+          storeName={storeName}
+          filter1={filter1}
+          filter2={filter2}
+        />
       </div>
       <div className="w-full">
         <EcoBtn
