@@ -1,7 +1,7 @@
 import React from "react";
 import { EcoBtn } from "./EcoBtn";
 import { useDispatch, useSelector } from "react-redux";
-import { setReiniciar, cleanUser, cleanVehicle } from "../store";
+import { setReiniciar, cleanUser, cleanVehicle, cleanRental } from "../store";
 import { ModalComponent } from "./ModalComponent";
 
 /**
@@ -65,6 +65,7 @@ export const CrudBtsn = ({
   const limpiar = () => {
     dispatch(cleanUser());
     dispatch(cleanVehicle());
+    dispatch(cleanRental());
     dispatch(setReiniciar());
   };
 

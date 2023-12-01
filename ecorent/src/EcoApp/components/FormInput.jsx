@@ -30,7 +30,11 @@ export const FormInput = ({ id, label, type, func, stateName }) => {
         placeholder={label}
         value={valor[id] != null ? valor[id] : ""}
         onChange={(e) => dispatch(func(e.target.value))}
-        className="w-full rounded-md focus:ring border-gray-700 text-gray-900"
+        disabled={valor[`${id}Disabled`]}
+        className={
+          "w-full rounded-md focus:ring border-gray-700  " +
+          (valor[`${id}Disabled`] ? "bg-gray-200 text-gray-400" : "bg-gray-50 text-gray-900")
+        }
       />
     </div>
   );

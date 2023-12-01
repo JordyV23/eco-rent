@@ -8,6 +8,11 @@ const initialState = {
   color: "",
   disponible: "",
   isLoading: true,
+  placaDisabled: false,
+  marcaDisabled: false,
+  detalleDisabled: false,
+  colorDisabled: false,
+  disponibleDisabled: false,
 };
 
 export const vehiclesSlice = createSlice({
@@ -27,6 +32,8 @@ export const vehiclesSlice = createSlice({
       state.detalle = detalle;
       state.color = color;
       state.disponible = disponible;
+
+      state.placaDisabled = true;
     },
 
     /**
@@ -102,6 +109,8 @@ export const vehiclesSlice = createSlice({
       state.detalle = "";
       state.color = "";
       state.disponible = "";
+
+      state.placaDisabled = false;
     },
   },
 });

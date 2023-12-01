@@ -11,6 +11,13 @@ const initialState = {
   rol: "",
   errorMessage: "",
   isLoading: true,
+  cedulaDisable: false,
+  nombreDisable: false,
+  apellidosDisable: false,
+  fechaNacimientoDisable: false,
+  passwordDisable: false,
+  emailDisable: false,
+  rolDisable: false,
 };
 
 /**
@@ -57,6 +64,11 @@ export const usersSlice = createSlice({
       state.password = password;
       state.email = email;
       state.rol = rol;
+
+      state.cedulaDisabled = true;
+      state.nombreDisabled = true;
+      state.apellidosDisabled = true;
+      state.fechaNacimientoDisabled = true;
     },
 
     /**
@@ -132,6 +144,11 @@ export const usersSlice = createSlice({
       state.password = "";
       state.email = "";
       state.rol = "";
+
+      state.cedulaDisabled = false;
+      state.nombreDisabled = false;
+      state.apellidosDisabled = false;
+      state.fechaNacimientoDisabled = false;
     },
   },
 });

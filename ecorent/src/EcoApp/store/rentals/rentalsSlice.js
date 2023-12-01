@@ -9,6 +9,12 @@ const initialState = {
   cedula: "",
   placa: "",
   isLoading: true,
+  idRentaDisabled: false,
+  fechaRentaDisabled: false,
+  fechaDevolucionDisabled: false,
+  fechaVencimientoDisabled: false,
+  cedulaDisabled: false,
+  placaDisabled: false,
 };
 
 export const rentalsSlice = createSlice({
@@ -48,6 +54,12 @@ export const rentalsSlice = createSlice({
       state.cedula = cedula;
       state.placa = placa;
       state.isLoading = false;
+
+      state.idRentaDisabled = true;
+      state.fechaRentaDisabled = true;
+      state.fechaVencimientoDisabled = true;
+      state.cedulaDisabled = true;
+      state.placaDisabled = true;
     },
 
     /**
@@ -115,6 +127,12 @@ export const rentalsSlice = createSlice({
       state.fechaVencimiento = "";
       state.cedula = "";
       state.placa = "";
+
+      state.idRentaDisabled = false;
+      state.fechaRentaDisabled = false;
+      state.fechaVencimientoDisabled = false;
+      state.cedulaDisabled = false;
+      state.placaDisabled = false;
     },
   },
 });
