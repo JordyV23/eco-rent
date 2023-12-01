@@ -17,6 +17,10 @@ import { ModalComponent } from "./ModalComponent";
  * @param {string[]} props.headers - Lista de encabezados para la tabla modal.
  * @param {string} props.keyField - Campo clave para la tabla modal.
  * @param {Function} props.event - Función a ejecutar al interactuar con la tabla modal.
+ * @param {string} props.storeName - Nombre del estado en el almacenamiento global.
+ * @param {string} props.filter1 - Filtro 1 para la tabla modal.
+ * @param {string} props.filter2 - Filtro 2 para la tabla modal.
+ * @param {string} props.placeholder - Texto de marcador de posición para el campo de búsqueda en el modal.
  * @returns {JSX.Element} Elemento JSX que contiene botones para operaciones CRUD.
  * @example
  * // Ejemplo de uso en un componente funcional.
@@ -27,6 +31,10 @@ import { ModalComponent } from "./ModalComponent";
  *   headers={["Header1", "Header2"]}
  *   keyField="id"
  *   event={handleEvent}
+ *   storeName="usuarios"
+ *   filter1="filtro1"
+ *   filter2="filtro2"
+ *   placeholder="Buscar por nombre o apellido"
  * />
  */
 export const CrudBtsn = ({
@@ -39,6 +47,7 @@ export const CrudBtsn = ({
   storeName,
   filter1,
   filter2,
+  placeholder,
 }) => {
   const {
     disableCrear,
@@ -50,6 +59,9 @@ export const CrudBtsn = ({
 
   const dispatch = useDispatch();
 
+  /**
+   * Limpia los estados de usuario y vehículo y reinicia el estado de CRUD.
+   */
   const limpiar = () => {
     dispatch(cleanUser());
     dispatch(cleanVehicle());
@@ -86,6 +98,7 @@ export const CrudBtsn = ({
           storeName={storeName}
           filter1={filter1}
           filter2={filter2}
+          placeholder={placeholder}
         />
       </div>
       <div className="w-full">

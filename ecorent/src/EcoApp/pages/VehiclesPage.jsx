@@ -71,6 +71,7 @@ export const VehiclesPage = () => {
             storeName={"vehiculos"}
             filter1={"placa"}
             filter2={"marca"}
+            placeholder={"Ingrese la placa del el vehículo o su marca"}
           />
         </div>
       </div>

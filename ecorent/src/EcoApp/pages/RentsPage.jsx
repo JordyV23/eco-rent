@@ -57,6 +57,7 @@ export const RentsPage = () => {
                 storeName={"rentas"}
                 filter1={"placa"}
                 filter2={"cedula"}
+                placeholder={"Ingrese la placa del vehículo o la cédula del usuario"}
               />
             </div>
           </div>

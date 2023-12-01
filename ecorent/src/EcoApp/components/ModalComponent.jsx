@@ -1,29 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { SearchTable } from "./SearchTable";
 
-export const ModalComponent = ({headers,keyField, event, storeName,filter1,filter2}) => {
-  const [showModal, setShowModal] = React.useState(false);
-  const [coincidencias, setCoincidencias] = React.useState([]);
+/**
+ * Componente funcional que representa un modal de búsqueda.
+ * @component
+ * @param {Object} props - Propiedades del componente.
+ * @param {string[]} props.headers - Lista de encabezados para la tabla modal.
+ * @param {string} props.keyField - Campo clave para la tabla modal.
+ * @param {Function} props.event - Función a ejecutar al interactuar con la tabla modal.
+ * @param {string} props.storeName - Nombre del estado asociado al modal.
+ * @param {string} props.filter1 - Primer campo a considerar en la búsqueda.
+ * @param {string} props.filter2 - Segundo campo a considerar en la búsqueda.
+ * @param {string} props.placeholder - Texto de marcador de posición para el campo de búsqueda.
+ * @returns {JSX.Element} Elemento JSX que contiene un botón de búsqueda y un modal.
+ * @example
+ * // Ejemplo de uso en un componente funcional.
+ * <ModalComponent
+ *   headers={["Header1", "Header2"]}
+ *   keyField="id"
+ *   event={handleEvent}
+ *   storeName="usuarios"
+ *   filter1="nombre"
+ *   filter2="apellido"
+ *   placeholder="Buscar por nombre o apellido"
+ * />
+ */
+export const ModalComponent = ({
+  headers,
+  keyField,
+  event,
+  storeName,
+  filter1,
+  filter2,
+  placeholder,
+}) => {
+  const [showModal, setShowModal] = useState(false);
+  const [coincidencias, setCoincidencias] = useState([]);
 
   const store = useSelector((state) => state[storeName]);
 
-  // let coincidencias = [];
-
+  /**
+   * Realiza una búsqueda en el estado global según el valor proporcionado.
+   * @param {string} value - Valor a buscar en el estado global.
+   */
   const buscar = (value) => {
-    // console.log(store[storeName][0][filter1]);
-    // return
-    // console.log(value);
-    // console.log(usuarios);
-
     let val = store[storeName].filter(
       (obj) => obj[filter1].includes(value) || obj[filter2].includes(value)
     );
 
     setCoincidencias(val);
   };
-
-  // useEffect( () => {}, [coincidencias] )
 
   return (
     <>
@@ -34,7 +61,7 @@ export const ModalComponent = ({headers,keyField, event, storeName,filter1,filte
       >
         Buscar
       </button>
-      {showModal ? (
+      {showModal && (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
@@ -57,13 +84,18 @@ export const ModalComponent = ({headers,keyField, event, storeName,filter1,filte
                   <input
                     id="input"
                     type="text"
-                    placeholder="Ingrese la cedula del usuario"
-                    // value={valor[id] != null ? valor[id] : ""}
+                    placeholder={placeholder}
                     onChange={(e) => buscar(e.target.value)}
                     className="w-full rounded-md focus:ring border-gray-700 text-gray-900"
                   />
 
-                  <SearchTable data={coincidencias}  headers={headers} keyField={keyField} event={event} showModal={setShowModal} />
+                  <SearchTable
+                    data={coincidencias}
+                    headers={headers}
+                    keyField={keyField}
+                    event={event}
+                    showModal={setShowModal}
+                  />
                 </div>
                 {/*footer*/}
                 <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
@@ -87,7 +119,7 @@ export const ModalComponent = ({headers,keyField, event, storeName,filter1,filte
           </div>
           <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
         </>
-      ) : null}
+      )}
     </>
   );
 };

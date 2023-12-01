@@ -72,6 +72,7 @@ export const UsersPage = () => {
                 storeName={"usuarios"}
                 filter1={"cedula"}
                 filter2={"nombre"}
+                placeholder={"Ingrese la cedula del usuario o su nombre"}
               />
             </div>
           </div>
