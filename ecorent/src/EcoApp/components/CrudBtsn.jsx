@@ -2,6 +2,7 @@ import React from "react";
 import { EcoBtn } from "./EcoBtn";
 import { useDispatch, useSelector } from "react-redux";
 import { setReiniciar, cleanUser, cleanVehicle } from "../store";
+import { ModalComponent } from "./ModalComponent";
 
 /**
  * Componente que muestra botones de CRUD (Crear, Leer, Actualizar, Eliminar) y otras operaciones
@@ -13,12 +14,29 @@ import { setReiniciar, cleanUser, cleanVehicle } from "../store";
  * @param {Function} props.actualizar - Función a ejecutar al hacer clic en el botón "Editar".
  * @param {Function} props.eliminar - Función a ejecutar al hacer clic en el botón "Eliminar".
  * @param {Function} props.buscar - Función a ejecutar al hacer clic en el botón "Buscar".
+ * @param {string[]} props.headers - Lista de encabezados para la tabla modal.
+ * @param {string} props.keyField - Campo clave para la tabla modal.
+ * @param {Function} props.event - Función a ejecutar al interactuar con la tabla modal.
  * @returns {JSX.Element} Elemento JSX que contiene botones para operaciones CRUD.
  * @example
  * // Ejemplo de uso en un componente funcional.
- * <CrudBtsn insertar={handleInsertar} actualizar={handleActualizar} eliminar={handleEliminar} buscar={handleBuscar} />
+ * <CrudBtsn
+ *   insertar={handleInsertar}
+ *   actualizar={handleActualizar}
+ *   eliminar={handleEliminar}
+ *   headers={["Header1", "Header2"]}
+ *   keyField="id"
+ *   event={handleEvent}
+ * />
  */
-export const CrudBtsn = ({ insertar, actualizar, eliminar, buscar }) => {
+export const CrudBtsn = ({
+  insertar,
+  actualizar,
+  eliminar,
+  headers,
+  keyField,
+  event,
+}) => {
   const {
     disableCrear,
     disableEditar,
@@ -58,7 +76,7 @@ export const CrudBtsn = ({ insertar, actualizar, eliminar, buscar }) => {
         />
       </div>
       <div className="w-full">
-        <EcoBtn text={"Buscar"} action={buscar} disabled={disableBuscar} />
+        <ModalComponent headers={headers} event={event} keyField={keyField} />
       </div>
       <div className="w-full">
         <EcoBtn

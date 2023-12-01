@@ -19,7 +19,7 @@ import { useCrudUsers } from "../hooks/users/useCrudUsers";
  */
 export const UsersPage = () => {
   const dispatch = useDispatch();
-  const { usuarios,isLoading } = useSelector((state) => state.usuarios);
+  const { usuarios, isLoading } = useSelector((state) => state.usuarios);
   const { insertar, actualizar, eliminar } = useCrudUsers();
 
   // Cargar usuarios al cargar la página
@@ -66,9 +66,9 @@ export const UsersPage = () => {
                 insertar={insertar}
                 actualizar={actualizar}
                 eliminar={eliminar}
-                buscar={() => {
-                  console.log("buscar");
-                }}
+                headers={usersHeaders}
+                keyField={"cedula"}
+                event={setSelectedUser}
               />
             </div>
           </div>
