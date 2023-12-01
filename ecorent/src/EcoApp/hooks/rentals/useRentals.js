@@ -32,6 +32,19 @@ export const userRentals = () => {
     });
   };
 
+  const validarNulos = (rent) => {
+    if (
+      rent.cedula == "" ||
+      rent.fechaRenta == "" ||
+      rent.fechaVencimiento == "" ||
+      rent.placa == ""
+    ) {
+      notifyError("insertar");
+      return true;
+    }
+    return false
+  };
+
   /**
    * Obtiene la lista de rentas del usuario.
    * @returns {Promise<Array>} Promesa que resuelve con la lista de rentas o un array vacío si no hay registros.
@@ -56,6 +69,10 @@ export const userRentals = () => {
    */
   const insertRent = async (rent) => {
     try {
+      if (validarNulos(rent)) {
+        return;
+      }
+
       const { data } = await backendApi.post(import.meta.env.VITE_RENTS, rent);
 
       if (data.success) {
@@ -77,6 +94,10 @@ export const userRentals = () => {
    */
   const updateRent = async (rent) => {
     try {
+      if (validarNulos(rent)) {
+        return;
+      }
+
       const { data } = await backendApi.put(import.meta.env.VITE_RENTS, rent);
 
       if (data.success) {
@@ -97,7 +118,9 @@ export const userRentals = () => {
    */
   const deleteRent = async ({ idRenta }) => {
     try {
-      const { data } = await backendApi.delete(`${import.meta.env.VITE_RENTS}?idRenta=${idRenta}`);
+      const { data } = await backendApi.delete(
+        `${import.meta.env.VITE_RENTS}?idRenta=${idRenta}`
+      );
 
       if (data.success) {
         notifySuccess("eliminada");

@@ -4,6 +4,7 @@ import {
   startUpdateVehicle,
   startDeleteVehicle,
 } from "../../store/vehicles/vehicleThunks";
+import Swal from "sweetalert2";
 
 /**
  * Hook personalizado para manejar operaciones relacionadas con vehículos.
@@ -14,7 +15,7 @@ export const useCrudVehicles = () => {
   const dispatch = useDispatch();
 
   // Obtener datos del estado
-  const { placa, marca, detalle, color, disponible } = useSelector(
+  const { placa, marca, detalle, color, disponible, vehiculos } = useSelector(
     (state) => state.vehiculos
   );
 
@@ -23,8 +24,20 @@ export const useCrudVehicles = () => {
    * @function
    */
   const insertar = () => {
+    if (vehiculos.find((vehiculo) => vehiculo.placa === placa)) {
+      Swal.fire({
+        title: "¡Error!",
+        text: `El vehículo con placa ${placa} ya existe`,
+        icon: "error",
+        confirmButtonText: "Aceptar",
+      });
+      return;
+    }
+
     const dis = parseInt(disponible);
-    dispatch(startInsertVehicle({ placa, marca, detalle, color, disponible: dis }));
+    dispatch(
+      startInsertVehicle({ placa, marca, detalle, color, disponible: dis })
+    );
   };
 
   /**
@@ -33,7 +46,9 @@ export const useCrudVehicles = () => {
    */
   const actualizar = () => {
     const dis = parseInt(disponible);
-    dispatch(startUpdateVehicle({ placa, marca, detalle, color, disponible: dis }));
+    dispatch(
+      startUpdateVehicle({ placa, marca, detalle, color, disponible: dis })
+    );
   };
 
   /**

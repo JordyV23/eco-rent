@@ -43,6 +43,21 @@ export const useUsers = () => {
     });
   };
 
+  const validarNulos = (user) => {
+    if (
+      user.cedula == "" ||
+      user.fechaNacimiento == "" ||
+      user.nombre == "" ||
+      user.apellidos == "" ||
+      user.email == "" ||
+      user.rol == ""
+    ) {
+      notifyError("insertar");
+      return true;
+    }
+    return false;
+  };
+
   /**
    * Obtiene de forma asincrónica la lista de usuarios desde la API.
    * @async
@@ -72,7 +87,14 @@ export const useUsers = () => {
    */
   const insertUser = async (usuario) => {
     try {
-      const { data } = await backendApi.post(import.meta.env.VITE_USERS, usuario);
+      if (validarNulos(usuario)) {
+        return;
+      }
+
+      const { data } = await backendApi.post(
+        import.meta.env.VITE_USERS,
+        usuario
+      );
 
       if (data.success) {
         notifySuccess("insertado");
@@ -97,7 +119,14 @@ export const useUsers = () => {
    */
   const updateUser = async (usuario) => {
     try {
-      const { data } = await backendApi.put(import.meta.env.VITE_USERS, usuario);
+      if (validarNulos(usuario)) {
+        return;
+      }
+
+      const { data } = await backendApi.put(
+        import.meta.env.VITE_USERS,
+        usuario
+      );
 
       if (data.success) {
         notifySuccess("actualizado");

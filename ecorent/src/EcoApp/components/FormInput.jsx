@@ -25,6 +25,7 @@ export const FormInput = ({ id, label, type, func, stateName }) => {
         {label}
       </label>
       <input
+        required
         id={id}
         type={type}
         placeholder={label}
@@ -33,7 +34,9 @@ export const FormInput = ({ id, label, type, func, stateName }) => {
         disabled={valor[`${id}Disabled`]}
         className={
           "w-full rounded-md focus:ring border-gray-700  " +
-          (valor[`${id}Disabled`] ? "bg-gray-200 text-gray-400" : "bg-gray-50 text-gray-900")
+          (valor[`${id}Disabled`]
+            ? "bg-gray-200 text-gray-400"
+            : "bg-gray-50 text-gray-900")
         }
       />
     </div>

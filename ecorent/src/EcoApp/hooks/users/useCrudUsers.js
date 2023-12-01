@@ -16,8 +16,16 @@ import {
  */
 export const useCrudUsers = () => {
   const dispatch = useDispatch();
-  const { cedula, nombre, apellidos, fechaNacimiento, email, rol, password } =
-    useSelector((state) => state.usuarios);
+  const {
+    cedula,
+    nombre,
+    apellidos,
+    fechaNacimiento,
+    email,
+    rol,
+    password,
+    usuarios,
+  } = useSelector((state) => state.usuarios);
 
   /**
    * Ejecuta la acción para insertar un nuevo usuario utilizando Redux Thunk.
@@ -25,6 +33,16 @@ export const useCrudUsers = () => {
    * @function
    */
   const insertar = () => {
+    if (usuarios.find((usuario) => usuario.cedula === cedula)) {
+      Swal.fire({
+        title: "¡Error!",
+        text: `El usuario con cédula ${cedula} ya existe`,
+        icon: "error",
+        confirmButtonText: "Aceptar",
+      });
+      return;
+    }
+
     dispatch(
       startInsertUser({
         cedula,

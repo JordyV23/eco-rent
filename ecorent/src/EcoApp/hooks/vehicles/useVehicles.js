@@ -33,6 +33,20 @@ export const useVehicles = () => {
     });
   };
 
+  const validarNulos = (vehicle) => {
+    if (
+      vehicle.placa == "" ||
+      vehicle.marca == "" ||
+      vehicle.detalle == "" ||
+      vehicle.color == "" ||
+      vehicle.disponible == ""
+    ) {
+      notifyError("insertar");
+      return true;
+    }
+    return false;
+  };
+
   /**
    * Función asincrónica que obtiene la lista de vehículos desde la API.
    * @async
@@ -60,7 +74,14 @@ export const useVehicles = () => {
    */
   const insertVehicle = async (vehicle) => {
     try {
-      const { data } = await backendApi.post(import.meta.env.VITE_VEHICLES, vehicle);
+      if (validarNulos(vehicle)) {
+        return;
+      }
+
+      const { data } = await backendApi.post(
+        import.meta.env.VITE_VEHICLES,
+        vehicle
+      );
 
       if (data.success) {
         notifySuccess("insertado");
@@ -80,7 +101,14 @@ export const useVehicles = () => {
    */
   const updateVehicle = async (vehicle) => {
     try {
-      const { data } = await backendApi.put(import.meta.env.VITE_VEHICLES, vehicle);
+      if (validarNulos(vehicle)) {
+        return;
+      }
+
+      const { data } = await backendApi.put(
+        import.meta.env.VITE_VEHICLES,
+        vehicle
+      );
 
       if (data.success) {
         notifySuccess("actualizado");
