@@ -10,6 +10,7 @@ const initialState = {
   email: "",
   rol: "",
   errorMessage: "",
+  isLoading: true,
 };
 
 /**
@@ -27,7 +28,9 @@ export const usersSlice = createSlice({
      * @param {Object} action - Objeto de acción con la propiedad 'payload' que contiene la nueva lista de usuarios.
      */
     setUsers: (state, action) => {
+      state.isLoading = true;
       state.usuarios = action.payload;
+      state.isLoading = false;
     },
 
     /**

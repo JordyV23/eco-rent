@@ -20,7 +20,7 @@ export const LinkComponent = ({ text, link }) => {
         className="hvr-grow items-center p-2 text-txt-light rounded-lg text-white text-xl font-semibold"
       >
         {/* Texto del enlace */}
-        <span className="ml-3 whitespace-nowrap">{text}</span>
+        <span className="ml-3 whitespace-nowrap hover:text-red-600">{text}</span>
       </Link>
     </>
   );

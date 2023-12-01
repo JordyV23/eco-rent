@@ -7,6 +7,7 @@ const initialState = {
   detalle: "",
   color: "",
   disponible: "",
+  isLoading: true,
 };
 
 export const vehiclesSlice = createSlice({
@@ -35,7 +36,9 @@ export const vehiclesSlice = createSlice({
      * @param {object} action - Acción que contiene la lista de vehículos.
      */
     setVehiculos: (state, action) => {
+      state.isLoading = true;
       state.vehiculos = action.payload;
+      state.isLoading = false;
     },
 
     /**

@@ -50,7 +50,6 @@ export const useUsers = () => {
    * @returns {Promise} Resuelve con los datos de usuarios obtenidos de la API.
    */
   const getUsers = async () => {
-    console.log(import.meta.env.VITE_USERS);
     try {
       const { data } = await backendApi.get(import.meta.env.VITE_USERS);
       if (data.msg === "No hay registros") {

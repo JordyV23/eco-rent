@@ -8,6 +8,7 @@ const initialState = {
   fechaVencimiento: "",
   cedula: "",
   placa: "",
+  isLoading: true,
 };
 
 export const rentalsSlice = createSlice({
@@ -20,7 +21,9 @@ export const rentalsSlice = createSlice({
      * @param {object} action - Acción con el payload que contiene las rentas.
      */
     setRentals: (state, action) => {
+      state.isLoading = true;
       state.rentas = action.payload;
+      state.isLoading = false;
     },
 
     /**
@@ -44,6 +47,7 @@ export const rentalsSlice = createSlice({
       state.fechaVencimiento = fechaVencimiento;
       state.cedula = cedula;
       state.placa = placa;
+      state.isLoading = false;
     },
 
     /**

@@ -23,7 +23,7 @@ export const UserOptions = () => {
         <LinkComponent link={"/vehicles"} text={"Vehículos"} />
 
         {/* Enlace a la sección de Alquileres */}
-        <LinkComponent link={"/rental"} text={"Alquileres"} />
+        <LinkComponent link={"/rentals"} text={"Alquileres"} />
       </div>
     </>
   );

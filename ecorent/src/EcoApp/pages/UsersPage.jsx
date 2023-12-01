@@ -19,7 +19,7 @@ import { useCrudUsers } from "../hooks/users/useCrudUsers";
  */
 export const UsersPage = () => {
   const dispatch = useDispatch();
-  const { usuarios } = useSelector((state) => state.usuarios);
+  const { usuarios,isLoading } = useSelector((state) => state.usuarios);
   const { insertar, actualizar, eliminar } = useCrudUsers();
 
   // Cargar usuarios al cargar la página
@@ -45,38 +45,43 @@ export const UsersPage = () => {
       {/* Opciones de usuario */}
       <UserOptions />
 
-      {/* Sección de formulario y botones de CRUD */}
-      <div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-3 ">
-        {/* Formulario de CRUD */}
-        <div className="col-span-full sm:col-span-4">
-          <CrudForm
-            stateName={"usuarios"}
-            fields={userFields}
-            slices={userSliceFunctions}
-          />
-        </div>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          {/* Sección de formulario y botones de CRUD */}
+          <div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-3 ">
+            {/* Formulario de CRUD */}
+            <div className="col-span-full sm:col-span-4">
+              <CrudForm
+                stateName={"usuarios"}
+                fields={userFields}
+                slices={userSliceFunctions}
+              />
+            </div>
 
-        {/* Botones de CRUD */}
-        <div className="col-span-full sm:col-span-2">
-          <CrudBtsn
-            insertar={insertar}
-            actualizar={actualizar}
-            eliminar={eliminar}
-            buscar={() => {
-              console.log("buscar");
-            }}
-          />
-        </div>
-      </div>
+            {/* Botones de CRUD */}
+            <div className="col-span-full sm:col-span-2">
+              <CrudBtsn
+                insertar={insertar}
+                actualizar={actualizar}
+                eliminar={eliminar}
+                buscar={() => {
+                  console.log("buscar");
+                }}
+              />
+            </div>
+          </div>
 
-      {/* Tabla general de usuarios */}
-      <GeneralTable
-        headers={usersHeaders}
-        storeName={"usuarios"}
-        event={setSelectedUser}
-        keyField={"cedula"}
-      />
-      <Loader />
+          {/* Tabla general de usuarios */}
+          <GeneralTable
+            headers={usersHeaders}
+            storeName={"usuarios"}
+            event={setSelectedUser}
+            keyField={"cedula"}
+          />
+        </>
+      )}
     </>
   );
 };

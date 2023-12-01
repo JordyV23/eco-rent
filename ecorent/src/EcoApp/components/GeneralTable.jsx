@@ -44,23 +44,31 @@ export const GeneralTable = ({ headers, storeName, event, keyField }) => {
         </Table.Head>
 
         <Table.Body className="divide-y">
-          {/* Renderizar filas de tabla según los datos del store*/}
-          {data.map((field) => (
-            <Table.Row key={field[keyField]}>
-              {/* Renderizar celdas de tabla según las propiedades del usuario */}
-              {Object.values(field).map((value, index) => (
-                <Table.Cell key={index}>{value}</Table.Cell>
-              ))}
-              <Table.Cell>
-                <button
-                  className="font-medium text-cyan-600 "
-                  onClick={() => seleccionarRegistro(field, keyField)}
-                >
-                  Editar
-                </button>
+          {data.length === 0 ? ( // Verifica si data está vacío
+            <Table.Row className="text-center">
+              <Table.Cell colSpan={headers.length + 1}>
+                No hay data para mostrar
               </Table.Cell>
             </Table.Row>
-          ))}
+          ) : (
+            // Renderizar filas de tabla según los datos del store
+            data.map((field) => (
+              <Table.Row key={field[keyField]}>
+                {/* Renderizar celdas de tabla según las propiedades del usuario */}
+                {Object.values(field).map((value, index) => (
+                  <Table.Cell key={index}>{value}</Table.Cell>
+                ))}
+                <Table.Cell>
+                  <button
+                    className="font-medium text-cyan-600 "
+                    onClick={() => seleccionarRegistro(field, keyField)}
+                  >
+                    Editar
+                  </button>
+                </Table.Cell>
+              </Table.Row>
+            ))
+          )}
         </Table.Body>
       </Table>
     </div>
