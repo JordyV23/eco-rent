@@ -43,7 +43,6 @@ class usuarios
     public function eliminar($cedula)
     {
         $sql = "DELETE FROM usuarios WHERE cedula = '$cedula'";
-        echo($sql);
         return EjecutarConsulta($sql);
     }
 }
