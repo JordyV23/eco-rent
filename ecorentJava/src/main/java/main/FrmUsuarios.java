@@ -28,14 +28,17 @@ public class FrmUsuarios extends javax.swing.JFrame {
      */
     String api;
     int pos;
-    
+
     public FrmUsuarios() {
         initComponents();
         this.api = "https://eco-api-amber.vercel.app/api/usuarios";
         this.obtener();
         this.pos = 0;
     }
-    
+
+    /**
+     * Realiza una solicitud HTTP GET a una API y carga los datos en una JTable.
+     */
     public void obtener() {
         try {
             // Crea la solicitud con método GET
@@ -48,14 +51,17 @@ public class FrmUsuarios extends javax.swing.JFrame {
             // Crea el cliente y realiza la solicitud
             HttpClient client = HttpClient.newHttpClient();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            
+
+            // Verifica el código de estado de la respuesta
             if (response.statusCode() == 200) {
-                
+
+                // Verifica si la respuesta contiene el mensaje "No hay registros"
                 if (response.body().contains("No hay registros")) {
+                    // No hay registros, así que no se hace nada
                     return;
                 }
 
-                // Procesa la respuesta JSON y carga los datos en la JTable                
+                // Procesa la respuesta JSON y carga los datos en la JTable
                 String responseData = response.body();
                 List<Map<String, Object>> data = new Gson().fromJson(responseData, List.class);
 
@@ -68,15 +74,29 @@ public class FrmUsuarios extends javax.swing.JFrame {
                     model.addRow(row.values().toArray());
                 }
             } else {
+                // Si el código de estado no es 200, imprime un mensaje de error
                 System.out.println("Error: " + response.statusCode() + " - " + response.body());
             }
         } catch (Exception e) {
+            // Captura cualquier excepción que pueda ocurrir durante el proceso
             e.printStackTrace();
         }
     }
-    
+
+    /**
+     * Inserta un nuevo registro en la API utilizando una solicitud HTTP POST.
+     *
+     * @param cedula El número de cédula del nuevo registro.
+     * @param nombre El nombre del nuevo registro.
+     * @param apellidos Los apellidos del nuevo registro.
+     * @param fechaNacimiento La fecha de nacimiento del nuevo registro.
+     * @param email El correo electrónico del nuevo registro.
+     * @return True si la operación de inserción fue exitosa, false en caso
+     * contrario.
+     */
     public boolean insertar(String cedula, String nombre, String apellidos, String fechaNacimiento, String email) {
         try {
+            // Crea un mapa con los datos del nuevo registro
             Map<String, String> requestBodyMap = new HashMap<>();
             requestBodyMap.put("cedula", cedula);
             requestBodyMap.put("nombre", nombre);
@@ -97,21 +117,37 @@ public class FrmUsuarios extends javax.swing.JFrame {
             // Crea el cliente y realiza la solicitud
             HttpClient client = HttpClient.newHttpClient();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            
+
+            // Verifica el código de estado de la respuesta
             if (response.statusCode() == 200) {
-                String responseData = response.body();
+                // La inserción fue exitosa
                 return true;
             } else {
+                // Si el código de estado no es 200, imprime un mensaje de error
                 System.out.println("Error: " + response.statusCode() + " - " + response.body());
                 return false;
             }
         } catch (IOException | InterruptedException e) {
+            // Captura cualquier excepción que pueda ocurrir durante el proceso
             return false;
         }
     }
-    
+
+    /**
+     * Edita la información de un usuario en la API utilizando una solicitud
+     * HTTP PUT.
+     *
+     * @param cedula El número de cédula del usuario cuya información se va a
+     * editar.
+     * @param email El nuevo correo electrónico para el usuario.
+     * @param rol El nuevo rol para el usuario.
+     * @param password La nueva contraseña para el usuario.
+     * @return True si la operación de edición fue exitosa, false en caso
+     * contrario.
+     */
     public boolean editar(String cedula, String email, String rol, String password) {
         try {
+            // Crea un mapa con los datos de la edición
             Map<String, String> requestBodyMap = new HashMap<>();
             requestBodyMap.put("cedula", cedula);
             requestBodyMap.put("password", password);
@@ -121,7 +157,7 @@ public class FrmUsuarios extends javax.swing.JFrame {
             // Utiliza Gson para convertir el cuerpo de la solicitud a JSON
             String jsonRequestBody = new Gson().toJson(requestBodyMap);
 
-            // Crea la solicitud con método POST y el cuerpo JSON
+            // Crea la solicitud con método PUT y el cuerpo JSON
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(this.api))
                     .header("Content-Type", "application/json; charset=utf-8")
@@ -131,55 +167,76 @@ public class FrmUsuarios extends javax.swing.JFrame {
             // Crea el cliente y realiza la solicitud
             HttpClient client = HttpClient.newHttpClient();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            
+
+            // Verifica el código de estado de la respuesta
             if (response.statusCode() == 200) {
-                String responseData = response.body();
+                // La edición fue exitosa
                 return true;
             } else {
+                // Si el código de estado no es 200, imprime un mensaje de error
                 System.out.println("Error: " + response.statusCode() + " - " + response.body());
                 return false;
             }
         } catch (IOException | InterruptedException e) {
+            // Captura cualquier excepción que pueda ocurrir durante el proceso
             return false;
         }
     }
-    
+
+    /**
+     * Elimina un usuario de la API utilizando una solicitud HTTP DELETE.
+     *
+     * @param cedula El número de cédula del usuario que se va a eliminar.
+     * @return True si la operación de eliminación fue exitosa, false en caso
+     * contrario.
+     */
     public boolean eliminar(String cedula) {
         try {
+            // Crea un mapa con el número de cédula para incluirlo en la solicitud
             Map<String, String> requestBodyMap = new HashMap<>();
             requestBodyMap.put("cedula", cedula);
+
             // Utiliza Gson para convertir el cuerpo de la solicitud a JSON
             String jsonRequestBody = new Gson().toJson(requestBodyMap);
-            // Crea la solicitud con método POST y el cuerpo JSON
+
+            // Crea la solicitud con método DELETE y el cuerpo JSON
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(this.api + ".php?cedula=" + cedula))
                     .header("Content-Type", "application/json; charset=utf-8")
                     .method("DELETE", HttpRequest.BodyPublishers.ofString(jsonRequestBody))
                     .build();
+
             // Crea el cliente y realiza la solicitud
             HttpClient client = HttpClient.newHttpClient();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            
+
+            // Verifica el código de estado de la respuesta
             if (response.statusCode() == 200) {
-                String responseData = response.body();
+                // La eliminación fue exitosa
                 return true;
             } else {
+                // Si el código de estado no es 200, imprime un mensaje de error
                 System.out.println("Error: " + response.statusCode() + " - " + response.body());
                 return false;
             }
         } catch (IOException | InterruptedException e) {
+            // Captura cualquier excepción que pueda ocurrir durante el proceso
             return false;
         }
     }
-    
+
+    /**
+     * Limpia los campos de entrada de texto en la interfaz gráfica.
+     */
     public void limpiarCampos() {
-        this.txtCedula.setText("");
-        this.txtNombre.setText("");
-        this.txtApellidos.setText("");
-        this.txtFecha.setDate(null);
-        this.txtCorreo.setText("");
-        this.txtRol.setText("");
-        
+        // Establece el texto de los campos a una cadena vacía o nulo según el tipo de campo
+
+        this.txtCedula.setText("");        // Limpia el campo de la cédula
+        this.txtNombre.setText("");        // Limpia el campo del nombre
+        this.txtApellidos.setText("");     // Limpia el campo de los apellidos
+        this.txtFecha.setDate(null);       // Establece la fecha en null para limpiar el campo de la fecha
+        this.txtCorreo.setText("");        // Limpia el campo del correo electrónico
+        this.txtRol.setText("");           // Limpia el campo del rol
     }
 
     /**
@@ -378,8 +435,6 @@ public class FrmUsuarios extends javax.swing.JFrame {
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
         Date fecha = txtFecha.getDate();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
-
-//        System.out.println(dateFormat.format(fecha));
         String cedula = txtCedula.getText();
         String nombre = txtNombre.getText();
         String apellidos = txtApellidos.getText();
@@ -393,23 +448,23 @@ public class FrmUsuarios extends javax.swing.JFrame {
 
     private void tbUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbUsuariosMouseClicked
         this.pos = tbUsuarios.getSelectedRow();
-        
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        
+
         try {
             this.txtRol.setEnabled(true);
             this.txtCedula.setEnabled(false);
             this.txtNombre.setEnabled(false);
             this.txtApellidos.setEnabled(false);
             this.txtFecha.setEnabled(false);
-            
+
             this.txtCedula.setText(tbUsuarios.getValueAt(this.pos, 0).toString());
             this.txtNombre.setText(tbUsuarios.getValueAt(this.pos, 1).toString());
             this.txtApellidos.setText(tbUsuarios.getValueAt(this.pos, 2).toString());
             this.txtFecha.setDate(dateFormat.parse(tbUsuarios.getValueAt(this.pos, 3).toString()));
             this.txtCorreo.setText(tbUsuarios.getValueAt(this.pos, 5).toString());
             this.txtRol.setText(tbUsuarios.getValueAt(this.pos, 6).toString());
-            
+
             this.btnEliminar.setEnabled(true);
             this.btnEditar.setEnabled(true);
             this.btnCrear.setEnabled(false);
@@ -431,7 +486,7 @@ public class FrmUsuarios extends javax.swing.JFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         String cedula = txtCedula.getText();
         Boolean res = this.eliminar(cedula);
-        
+
         showMessageDialog(null, (res) ? "Usuario eliminado" : "Algo salió mal");
         this.obtener();
         limpiarCampos();
@@ -442,7 +497,7 @@ public class FrmUsuarios extends javax.swing.JFrame {
         this.txtNombre.setEnabled(true);
         this.txtCedula.setEnabled(true);
         this.txtRol.setEnabled(false);
-        
+
         this.pos = 0;
         limpiarCampos();
     }//GEN-LAST:event_btnLimpiarActionPerformed
