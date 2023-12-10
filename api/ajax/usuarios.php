@@ -6,9 +6,22 @@ header('Content-Type: application/json');
 // Obtiene el contenido JSON desde el cuerpo de la solicitud
 $jsonData = file_get_contents('php://input');
 
+$headers = getallheaders();
+
+
 // Decodifica el JSON a un array de PHP
 $data = json_decode($jsonData, true);
 require_once "../models/usuariosModel.php";
+
+
+function decryptJS($encryptedData)
+{
+    $encrypted = base64_decode($encryptedData);
+    $key = 'clave_secreta';
+    $iv = '';
+    $decrypted = openssl_decrypt($encrypted, 'aes-256-ecb', $key, OPENSSL_RAW_DATA, $iv);
+    return $decrypted;
+}
 
 $usuarios = new usuarios();
 
@@ -17,6 +30,26 @@ $usuarios = new usuarios();
 switch ($method) {
 
     case 'POST': // Ruta: /api/usuarios 
+
+        $opt = $_GET['opt'];
+
+        if ($opt == 'JAVA') {
+            $HeaderCedula = $headers['cedula'];
+            $HeaderPassword = $headers['password'];
+
+            $rspta = $usuarios->validar($HeaderCedula, $HeaderPassword);
+
+            if ($rspta->num_rows != 1) {
+                echo json_encode(["success" => false, "msg" => "Usuario No encontrado"]);
+                break;
+            }
+
+            //Obtener unicamente JSON
+            $encryptedData = file_get_contents("php://input");
+            // Desencriptar los datos
+            $decryptedData = decryptData($encryptedData, "WEB3UTN");
+            $data = json_decode($decryptedData, true);
+        }
 
         // Extraccion de parametros del body
         $cedula = isset($data['cedula']) ? $data['cedula'] : '';
@@ -32,7 +65,30 @@ switch ($method) {
         // Envio de respuesta
         echo json_encode($rspta ? ["success" => true, "msg" => "usuario insertado"] : ["success" => false, "msg" => "Usuario no se pudo registrar"]);
         break;
+
     case 'PUT': // Ruta: /api/usuarios/{id} (Actualizar)
+
+        $opt = $_GET['opt'];
+
+        if ($opt == 'JAVA') {
+
+            $HeaderCedula = $headers['cedula'];
+            $HeaderPassword = $headers['password'];
+
+            $rspta = $usuarios->validar($HeaderCedula, $HeaderPassword);
+
+            if ($rspta->num_rows != 1) {
+                echo json_encode(["success" => false, "msg" => "Usuario No encontrado"]);
+                return;
+            }
+
+
+            //Obtener unicamente JSON
+            $encryptedData = file_get_contents("php://input");
+            // Desencriptar los datos
+            $decryptedData = decryptData($encryptedData, "WEB3UTN");
+            $data = json_decode($decryptedData, true);
+        }
 
         //Exrae parametros del body
         $cedula = isset($data['cedula']) ? $data['cedula'] : '';

@@ -14,7 +14,7 @@ class usuarios
     public function insertar($cedula, $nombre, $apellidos, $fechaNacimiento, $password, $email)
     {
         $sql = "INSERT INTO usuarios (cedula,nombre,apellidos,fechaNacimiento,password,email,rol)
-		VALUES ('$cedula', '$nombre','$apellidos','$fechaNacimiento','$password','$email','cliente')";
+		VALUES ('$cedula', '$nombre','$apellidos','$fechaNacimiento','TempPassword12345','$email','cliente')";
         return EjecutarConsulta($sql);
     }
 
@@ -43,7 +43,12 @@ class usuarios
     public function eliminar($cedula)
     {
         $sql = "DELETE FROM usuarios WHERE cedula = '$cedula'";
-        echo($sql);
+        return EjecutarConsulta($sql);
+    }
+
+    public function validar($cedula, $password)
+    {
+        $sql = "SELECT cedula FROM usuarios u WHERE u.cedula = '$cedula' AND u.password = '$password'";
         return EjecutarConsulta($sql);
     }
 }

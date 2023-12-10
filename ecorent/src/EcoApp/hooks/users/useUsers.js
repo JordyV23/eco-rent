@@ -124,7 +124,7 @@ export const useUsers = () => {
       }
 
       const { data } = await backendApi.put(
-        import.meta.env.VITE_USERS,
+        import.meta.env.VITE_USERS + "?opt=JS",
         usuario
       );
 

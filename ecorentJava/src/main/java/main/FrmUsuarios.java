@@ -11,13 +11,20 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.table.DefaultTableModel;
 
@@ -28,11 +35,16 @@ public class FrmUsuarios extends javax.swing.JFrame {
      */
     String api;
     int pos;
+    String headerCedula;
+    String headerPassword;
 
     public FrmUsuarios() {
         initComponents();
-        this.api = "https://eco-api-amber.vercel.app/api/usuarios";
+//        this.api = "https://eco-api-amber.vercel.app/api/usuarios";
+        this.api = "http://localhost/api/ajax/usuarios.php?opt=JAVA";
         this.obtener();
+        this.headerCedula = "118340484";
+        this.headerPassword = "12345";
         this.pos = 0;
     }
 
@@ -79,6 +91,7 @@ public class FrmUsuarios extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             // Captura cualquier excepción que pueda ocurrir durante el proceso
+            System.out.println(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -96,7 +109,6 @@ public class FrmUsuarios extends javax.swing.JFrame {
      */
     public boolean insertar(String cedula, String nombre, String apellidos, String fechaNacimiento, String email) {
         try {
-            // Crea un mapa con los datos del nuevo registro
             Map<String, String> requestBodyMap = new HashMap<>();
             requestBodyMap.put("cedula", cedula);
             requestBodyMap.put("nombre", nombre);
@@ -104,33 +116,57 @@ public class FrmUsuarios extends javax.swing.JFrame {
             requestBodyMap.put("fechaNacimiento", fechaNacimiento);
             requestBodyMap.put("email", email);
 
-            // Utiliza Gson para convertir el cuerpo de la solicitud a JSON
-            String jsonRequestBody = new Gson().toJson(requestBodyMap);
+            String originalKey = "WEB3UTN";
+            String adjustedKey = adjustKeyLength(originalKey);
+            // Encripta el objeto JSON
+            String encryptedJson = encrypt(requestBodyMap, adjustedKey);
 
-            // Crea la solicitud con método POST y el cuerpo JSON
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(this.api))
-                    .header("Content-Type", "application/json; charset=utf-8")
-                    .POST(HttpRequest.BodyPublishers.ofString(jsonRequestBody))
-                    .build();
+            try {
+//            // Crea un mapa con los datos del nuevo registro
+//            Map<String, String> requestBodyMap = new HashMap<>();
+//            requestBodyMap.put("cedula", cedula);
+//            requestBodyMap.put("nombre", nombre);
+//            requestBodyMap.put("apellidos", apellidos);
+//            requestBodyMap.put("fechaNacimiento", fechaNacimiento);
+//            requestBodyMap.put("email", email);
+//
+//            // Utiliza Gson para convertir el cuerpo de la solicitud a JSON
+//            String jsonRequestBody = new Gson().toJson(requestBodyMap);
 
-            // Crea el cliente y realiza la solicitud
-            HttpClient client = HttpClient.newHttpClient();
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                // Crea la solicitud con método POST y el cuerpo JSON
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create(this.api))
+                        .header("Content-Type", "application/json; charset=utf-8")
+                        .header("cedula", this.headerCedula)
+                        .header("password", this.headerPassword)
+                        .POST(HttpRequest.BodyPublishers.ofString(encryptedJson))
+                        .build();
 
-            // Verifica el código de estado de la respuesta
-            if (response.statusCode() == 200) {
-                // La inserción fue exitosa
-                return true;
-            } else {
-                // Si el código de estado no es 200, imprime un mensaje de error
-                System.out.println("Error: " + response.statusCode() + " - " + response.body());
+                // Crea el cliente y realiza la solicitud
+                HttpClient client = HttpClient.newHttpClient();
+                HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+                // Verifica el código de estado de la respuesta
+                if (response.statusCode() == 200) {
+                    // La inserción fue exitosa
+                    if (response.body().contains("Usuario No encontrado")) {
+                        // No hay registros, así que no se hace nada
+                        return false;
+                    }
+                    return true;
+                } else {
+                    // Si el código de estado no es 200, imprime un mensaje de error
+                    System.out.println("Error: " + response.statusCode() + " - " + response.body());
+                    return false;
+                }
+            } catch (IOException | InterruptedException e) {
+                // Captura cualquier excepción que pueda ocurrir durante el proceso
                 return false;
             }
-        } catch (IOException | InterruptedException e) {
-            // Captura cualquier excepción que pueda ocurrir durante el proceso
-            return false;
+        } catch (Exception ex) {
+            Logger.getLogger(FrmUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return false;
     }
 
     /**
@@ -154,14 +190,18 @@ public class FrmUsuarios extends javax.swing.JFrame {
             requestBodyMap.put("email", email);
             requestBodyMap.put("rol", rol);
 
-            // Utiliza Gson para convertir el cuerpo de la solicitud a JSON
-            String jsonRequestBody = new Gson().toJson(requestBodyMap);
+            String originalKey = "WEB3UTN";
+            String adjustedKey = adjustKeyLength(originalKey);
+            // Encripta el objeto JSON
+            String encryptedJson = encrypt(requestBodyMap, adjustedKey);
 
             // Crea la solicitud con método PUT y el cuerpo JSON
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(this.api))
                     .header("Content-Type", "application/json; charset=utf-8")
-                    .PUT(HttpRequest.BodyPublishers.ofString(jsonRequestBody))
+                    .header("cedula", this.headerCedula)
+                    .header("password", this.headerPassword)
+                    .PUT(HttpRequest.BodyPublishers.ofString(encryptedJson))
                     .build();
 
             // Crea el cliente y realiza la solicitud
@@ -170,7 +210,10 @@ public class FrmUsuarios extends javax.swing.JFrame {
 
             // Verifica el código de estado de la respuesta
             if (response.statusCode() == 200) {
-                // La edición fue exitosa
+                if (response.body().contains("Usuario No encontrado")) {
+                    // No hay registros, así que no se hace nada
+                    return false;
+                }
                 return true;
             } else {
                 // Si el código de estado no es 200, imprime un mensaje de error
@@ -180,7 +223,10 @@ public class FrmUsuarios extends javax.swing.JFrame {
         } catch (IOException | InterruptedException e) {
             // Captura cualquier excepción que pueda ocurrir durante el proceso
             return false;
+        } catch (Exception ex) {
+            Logger.getLogger(FrmUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return false;
     }
 
     /**
@@ -201,7 +247,7 @@ public class FrmUsuarios extends javax.swing.JFrame {
 
             // Crea la solicitud con método DELETE y el cuerpo JSON
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(this.api + ".php?cedula=" + cedula))
+                    .uri(URI.create(this.api + "&cedula=" + cedula))
                     .header("Content-Type", "application/json; charset=utf-8")
                     .method("DELETE", HttpRequest.BodyPublishers.ofString(jsonRequestBody))
                     .build();
@@ -209,7 +255,7 @@ public class FrmUsuarios extends javax.swing.JFrame {
             // Crea el cliente y realiza la solicitud
             HttpClient client = HttpClient.newHttpClient();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
+            System.out.println(this.api + "?cedula=" + cedula);
             // Verifica el código de estado de la respuesta
             if (response.statusCode() == 200) {
                 // La eliminación fue exitosa
@@ -225,6 +271,30 @@ public class FrmUsuarios extends javax.swing.JFrame {
         }
     }
 
+    public static String adjustKeyLength(String key) {
+        // Ajusta la longitud de la clave a 32 bytes (256 bits)
+        byte[] keyBytes = Arrays.copyOf(key.getBytes(StandardCharsets.UTF_8), 32);
+        return new String(keyBytes, StandardCharsets.UTF_8);
+    }
+
+    public static String encrypt(Map<String, String> requestBodyMap, String key) throws Exception {
+        // Convierte el objeto a JSON utilizando Gson
+        String jsonRequestBody = new Gson().toJson(requestBodyMap);
+
+        // Asegúrate de que la clave tenga exactamente 32 bytes (256 bits)
+        SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(), "AES");
+//        System.out.println(secretKeySpec);
+        // Crea un objeto Cipher con el algoritmo AES y el modo ECB
+        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
+
+        // Encripta el JSON
+        byte[] encryptedBytes = cipher.doFinal(jsonRequestBody.getBytes("UTF-8"));
+
+        // Codifica el resultado en Base64
+        return Base64.getEncoder().encodeToString(encryptedBytes);
+    }
+
     /**
      * Limpia los campos de entrada de texto en la interfaz gráfica.
      */
@@ -237,6 +307,14 @@ public class FrmUsuarios extends javax.swing.JFrame {
         this.txtFecha.setDate(null);       // Establece la fecha en null para limpiar el campo de la fecha
         this.txtCorreo.setText("");        // Limpia el campo del correo electrónico
         this.txtRol.setText("");           // Limpia el campo del rol
+        this.txtNombre.setEnabled(true);
+        this.txtCedula.setEnabled(true);
+        this.txtApellidos.setEnabled(true);
+        this.txtFecha.setEnabled(true);
+        this.txtRol.setEnabled(false);
+        this.btnEditar.setEnabled(false);
+        this.btnEliminar.setEnabled(false);
+        this.btnCrear.setEnabled(true);
     }
 
     /**
@@ -433,17 +511,30 @@ public class FrmUsuarios extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
-        Date fecha = txtFecha.getDate();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
-        String cedula = txtCedula.getText();
-        String nombre = txtNombre.getText();
-        String apellidos = txtApellidos.getText();
-        String fechaNacimiento = dateFormat.format(fecha);
-        String correo = txtCorreo.getText();
-        Boolean res = insertar(cedula, nombre, apellidos, fechaNacimiento, correo);
-        showMessageDialog(null, (res) ? "Usuario insertado" : "Algo salió mal");
-        this.obtener();
-        limpiarCampos();
+        if (!camposVacios()) {
+            Date fecha = txtFecha.getDate();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String cedula = txtCedula.getText();
+            String nombre = txtNombre.getText();
+            String apellidos = txtApellidos.getText();
+            String fechaNacimiento = dateFormat.format(fecha);
+            String correo = txtCorreo.getText();
+
+            for (int fila = 0; fila < tbUsuarios.getRowCount(); fila++) {
+                Object valorCedula = tbUsuarios.getValueAt(fila, 0);
+                if (valorCedula.toString().equals(cedula)) {
+                    // Se encontró la cédula, puedes realizar la acción que necesites
+                    showMessageDialog(this, "Lo siento esta cedula ya existe");
+                    return; // Termina la búsqueda después de encontrar la primera coincidencia
+                }
+            }
+
+            Boolean res = insertar(cedula, nombre, apellidos, fechaNacimiento, correo);
+            showMessageDialog(null, (res) ? "Usuario insertado" : "Algo salió mal");
+            this.obtener();
+            limpiarCampos();
+        }
+
     }//GEN-LAST:event_btnCrearActionPerformed
 
     private void tbUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbUsuariosMouseClicked
@@ -501,6 +592,18 @@ public class FrmUsuarios extends javax.swing.JFrame {
         this.pos = 0;
         limpiarCampos();
     }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private boolean camposVacios() {
+        boolean hayCamposVacios = false;
+
+        if (txtCedula.getText().isEmpty() || txtNombre.getText().isEmpty() || txtApellidos.getText().isEmpty()
+                || txtFecha.getDate() == null || txtCorreo.getText().isEmpty() || (txtRol.getText().isEmpty() && txtRol.isEnabled())) {
+            hayCamposVacios = true;
+            showMessageDialog(this, "Todos los campos son obligatorios. Por favor, llene todos los campos.");
+        }
+
+        return hayCamposVacios;
+    }
 
     /**
      * @param args the command line arguments
